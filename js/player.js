@@ -29,7 +29,7 @@ export default class Player {
 		let player = this;
 
 		mouse.onload = ()=> player.ctx.drawImage(mouse, player.xCord,	mouse.yPos,	player.width,	mouse.height);
-		mouse.src = "./mouse.svg";
+		mouse.src = "./images/mouse.svg";
 
 		this.stepCount++;
 	}
@@ -41,7 +41,7 @@ export default class Player {
 		let changeOccurred = false;
 
 		// run test for keyboard inputs
-		if(gestureTarget == undefined)
+		if(gestureTarget == undefined) // if gestureTarget isn't passed in i.e. it's a keyboard move
 			changeOccurred = this.testCases(data.keyCode, 37, 38, 39, 40, walls);
 		// run test for gesture
 		else

@@ -97,6 +97,6 @@ export default class Maze {
 		cheese.yPos = goal.yCord - cheese.height/8;
 
 		cheese.onload = ()=> goal.ctx.drawImage(cheese, cheese.xPos, cheese.yPos, cheese.width, cheese.height);
-		cheese.src = "./cheese.svg";
+		cheese.src = "./images/cheese.svg";
 	}
 }
