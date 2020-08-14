@@ -7,10 +7,19 @@ body {
 	color: #f0f0f0;
 
 	position: relative;
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
-	flex-flow: row wrap;
-	justify-content: center;
-	align-items: center;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	    -ms-flex-flow: row wrap;
+	        flex-flow: row wrap;
+	-webkit-box-pack: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
 }
 button::-moz-focus-inner {
   border: 0;
@@ -21,8 +30,13 @@ form, canvas {
 }
 
 form {
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
-	flex-flow: column nowrap;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	    -ms-flex-flow: column nowrap;
+	        flex-flow: column nowrap;
 }
 label {
 	font-size: 30px;
@@ -37,7 +51,8 @@ select {
 
 canvas {
 	background: rgba(193, 78, 78, 0.71);
-	flex-shrink: 0;
+	-ms-flex-negative: 0;
+	    flex-shrink: 0;
 }
 
 .game-complete, .preparing-grid {
@@ -61,11 +76,15 @@ canvas {
 	font-weight: 400;
 	outline: none;
 	cursor: pointer;
-	box-shadow: rgba(0, 0, 0, 0.5) 0 5px 5px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.5) 0 5px 5px;
+	        box-shadow: rgba(0, 0, 0, 0.5) 0 5px 5px;
 }
 .restart:hover {
+	-webkit-transition: all .2s ease;
+	-o-transition: all .2s ease;
 	transition: all .2s ease;
-	filter: brightness(.9);
+	-webkit-filter: brightness(.9);
+	        filter: brightness(.9);
 }
 #change {
 	margin-top: 20px;
@@ -80,19 +99,34 @@ canvas {
 
 @media (max-width: 1022px) {
 	body {
-		flex-direction: column;
-		justify-content: space-around;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		    -ms-flex-direction: column;
+		        flex-direction: column;
+		-ms-flex-pack: distribute;
+		    justify-content: space-around;
 	}
 	form, canvas {
 		margin: 25px auto;
 	}
 	form {
-		flex-flow: row wrap;
-		align-items: center;
-		justify-content: center;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		    -ms-flex-flow: row wrap;
+		        flex-flow: row wrap;
+		
+		-webkit-box-align: center;
+		    -ms-flex-align: center;
+		        align-items: center;
+		
+		-webkit-box-pack: center;
+		    -ms-flex-pack: center;
+		        justify-content: center;
 	}
 	form > * {
-		flex: 0 0 50%;
+		-webkit-box-flex: 0;
+		    -ms-flex: 0 0 50%;
+		        flex: 0 0 50%;
 		text-align: center;
 	}
 }
