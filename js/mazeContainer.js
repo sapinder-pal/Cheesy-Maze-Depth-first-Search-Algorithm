@@ -113,6 +113,6 @@ export default class Maze {
         cheese.width,
         cheese.height
       );
-    cheese.src = './images/cheese.svg';
+    cheese.src = './assets/cheese.svg';
   }
 }

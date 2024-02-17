@@ -29,7 +29,7 @@ export default class Player {
 		let player = this;
 
 		mouse.onload = ()=> player.ctx.drawImage(mouse, player.xCord,	mouse.yPos,	player.width,	mouse.height);
-		mouse.src = "./images/mouse.svg";
+		mouse.src = "./assets/mouse.svg";
 
 		this.stepCount++;
 	}
