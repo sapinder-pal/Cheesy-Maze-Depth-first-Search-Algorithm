@@ -81,14 +81,14 @@ function handleGestureStart(evt) {
   if (evt.type === 'touchstart') {
     if (evt.touches && evt.touches.length > 1) return; // exit function if multi-touch occurred
 
-    GestureStartX = evt.targetTouches[0].pageX - Canvas.offsetLeft;
-    GestureStartY = evt.targetTouches[0].pageY - Canvas.offsetTop;
+    GestureStartX = evt.targetTouches[0].pageX - GameContainer.offsetLeft;
+    GestureStartY = evt.targetTouches[0].pageY - GameContainer.offsetTop;
 
     Canvas.addEventListener('touchend', handleGestureEnd);
   } else {
     /* Handle MouseDown */
-    GestureStartX = evt.pageX - Canvas.offsetLeft;
-    GestureStartY = evt.pageY - Canvas.offsetTop;
+    GestureStartX = evt.pageX - GameContainer.offsetLeft;
+    GestureStartY = evt.pageY - GameContainer.offsetTop;
 
     Canvas.addEventListener('mouseup', handleGestureEnd);
   }
@@ -97,12 +97,12 @@ function handleGestureStart(evt) {
 function handleGestureEnd(evt) {
   /* Handle TouchEnd */
   if (evt.type === 'touchend') {
-    GestureEndX = evt.changedTouches[0].pageX - Canvas.offsetLeft;
-    GestureEndY = evt.changedTouches[0].pageY - Canvas.offsetTop;
+    GestureEndX = evt.changedTouches[0].pageX - GameContainer.offsetLeft;
+    GestureEndY = evt.changedTouches[0].pageY - GameContainer.offsetTop;
   } else {
     /* Handle MouseUp */
-    GestureEndX = evt.pageX - Canvas.offsetLeft;
-    GestureEndY = evt.pageY - Canvas.offsetTop;
+    GestureEndX = evt.pageX - GameContainer.offsetLeft;
+    GestureEndY = evt.pageY - GameContainer.offsetTop;
   }
 
   let Player = CheesyMaze.player;
