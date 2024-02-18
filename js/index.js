@@ -1,13 +1,14 @@
+import { handleGestureStart, handleKeyDown } from './eventHandlers.js';
 import Maze from './mazeContainer.js';
 
-const GameContainer = document.getElementById('game-container');
-const Canvas = document.getElementById('canvas');
+export const GameContainer = document.getElementById('game-container');
+export const Canvas = document.getElementById('canvas');
 const Ctx = Canvas.getContext('2d');
 let Width, Height;
 // user-defined rowNum & colNum
 let CustomGrid = document.querySelectorAll('#rows, #columns');
 
-let CheesyMaze;
+export var CheesyMaze;
 let MazeRows = CustomGrid[0].value;
 let MazeColumns = CustomGrid[1].value;
 
@@ -17,7 +18,7 @@ initiate();
 /********************* CHANGING NUMBER OF ROWS & COLUMNS ****************/
 let ChangeBtn = document.getElementById('change');
 
-ChangeBtn.addEventListener('click', _ => {
+ChangeBtn.addEventListener('click', () => {
   // if either of #rows and #columns has changed
   if (CustomGrid[0].value !== MazeRows || CustomGrid[1].value !== MazeColumns) {
     resetRowCol();
@@ -28,8 +29,6 @@ ChangeBtn.addEventListener('click', _ => {
     initiate();
   }
 });
-
-/***************************************** GLOBAL FUNCTIONS ********************************************/
 
 function defineCanvasSize() {
   // get width of GameContainer and assign it to Width and Height.
@@ -51,9 +50,6 @@ function resetRowCol() {
 
 /******************************************** MOVE EVENTS ***************************************************************/
 
-let GestureStartX, GestureStartY;
-let GestureEndX, GestureEndY;
-
 function listenMoves() {
   window.addEventListener('keydown', handleKeyDown);
   Canvas.addEventListener('touchstart', handleGestureStart);
@@ -66,96 +62,12 @@ function unListenMoves() {
   Canvas.removeEventListener('mousedown', handleGestureStart);
 }
 
-// EVENT HANDLERS
-function handleKeyDown(evt) {
-  let Player = CheesyMaze.player;
-  Player.move({ keyCode: evt.keyCode });
-
-  checkCompletion();
-}
-
-function handleGestureStart(evt) {
-  evt.preventDefault();
-
-  /* 	Handle TouchStart */
-  if (evt.type === 'touchstart') {
-    if (evt.touches && evt.touches.length > 1) return; // exit function if multi-touch occurred
-
-    GestureStartX = evt.targetTouches[0].pageX - GameContainer.offsetLeft;
-    GestureStartY = evt.targetTouches[0].pageY - GameContainer.offsetTop;
-
-    Canvas.addEventListener('touchend', handleGestureEnd);
-  } else {
-    /* Handle MouseDown */
-    GestureStartX = evt.pageX - GameContainer.offsetLeft;
-    GestureStartY = evt.pageY - GameContainer.offsetTop;
-
-    Canvas.addEventListener('mouseup', handleGestureEnd);
-  }
-}
-
-function handleGestureEnd(evt) {
-  /* Handle TouchEnd */
-  if (evt.type === 'touchend') {
-    GestureEndX = evt.changedTouches[0].pageX - GameContainer.offsetLeft;
-    GestureEndY = evt.changedTouches[0].pageY - GameContainer.offsetTop;
-  } else {
-    /* Handle MouseUp */
-    GestureEndX = evt.pageX - GameContainer.offsetLeft;
-    GestureEndY = evt.pageY - GameContainer.offsetTop;
-  }
-
-  let Player = CheesyMaze.player;
-  // Cell Range
-  let PlayerRangeX = Player.xCord + Player.width;
-  let PlayerRangeY = Player.yCord + Player.height;
-
-  // Check gesture occurred on Player cell
-  let isPlayerCol =
-    GestureStartX >= Player.xCord && GestureStartX <= PlayerRangeX;
-  let isPlayerRow =
-    GestureStartY >= Player.yCord && GestureStartY <= PlayerRangeY;
-  let gestureOnPlayer = isPlayerCol && isPlayerRow;
-
-  if (gestureOnPlayer) {
-    // Check if target is either of Player's neighbor
-    let targetColumn = Math.floor(GestureEndX / CheesyMaze.cellWidth);
-    let targetRow = Math.floor(GestureEndY / CheesyMaze.cellHeight);
-
-    let possibleTargets = {
-      left:
-        Player.colNum !== 0
-          ? CheesyMaze.grid[Player.rowNum][Player.colNum - 1]
-          : undefined,
-
-      top:
-        Player.rowNum !== 0
-          ? CheesyMaze.grid[Player.rowNum - 1][Player.colNum]
-          : undefined,
-
-      right:
-        Player.colNum !== CheesyMaze.gridLastColumn
-          ? CheesyMaze.grid[Player.rowNum][Player.colNum + 1]
-          : undefined,
-
-      bottom:
-        Player.rowNum !== CheesyMaze.gridLastRow
-          ? CheesyMaze.grid[Player.rowNum + 1][Player.colNum]
-          : undefined,
-    };
-
-    Player.move(possibleTargets, CheesyMaze.grid[targetRow][targetColumn]);
-  }
-
-  checkCompletion();
-}
-
 /***************************************** GAME COMPLETION *****************************************************/
 
 let CompletionBox = document.querySelector('.game-complete');
 let RestartBtn = document.querySelector('#restart');
 
-function checkCompletion() {
+export function checkCompletion() {
   let Player = CheesyMaze.player;
   let reachedCol = Player.colNum === CheesyMaze.goal.colNum;
   let reachedRow = Player.rowNum === CheesyMaze.goal.rowNum;
