@@ -1,21 +1,32 @@
 export default class Player {
+	#stepCount = 0
+	
 	constructor(maze) {
 		this.maze = maze;
 		this.ctx = maze.ctx;
 		this.width = maze.cellWidth;
 		this.height = maze.cellHeight;
-		this.stepCount = 0;
+		this.HeaderSpan = document.querySelector('.header .steps-count')
 	}
 
+	get stepCount() {
+		return this.#stepCount;
+	}
+	
+  set stepCount(value) {
+    this.#stepCount = value;
+    this.HeaderSpan.innerText = String(value);
+	}
+	
 	setPlayer() {
 		// set player to diagonally opposite cell
 		this.colNum = 	this.maze.goal.colNum === 0 	? this.maze.gridLastColumn : 0;
 		this.rowNum = 	this.maze.goal.rowNum === 0 	? this.maze.gridLastRow : 0;
 
-		this.drawPlayer();
+		this.drawPlayer(true);
 	}
 
-	drawPlayer() {
+	drawPlayer(isInitialDraw) {
 		//update Coordinates of player
 		this.xCord = this.colNum * this.width;
 		this.yCord = this.rowNum * this.height;
@@ -31,7 +42,7 @@ export default class Player {
 		mouse.onload = ()=> player.ctx.drawImage(mouse, player.xCord,	mouse.yPos,	player.width,	mouse.height);
 		mouse.src = "./assets/mouse.svg";
 
-		this.stepCount++;
+    if (!isInitialDraw) this.stepCount += 1;
 	}
 	
 

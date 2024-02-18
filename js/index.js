@@ -167,9 +167,9 @@ function checkCompletion() {
 }
 function gameComplete() {
   let Player = CheesyMaze.player;
-  // Subtracted 1 from Player.stepCount because first step counts when Player was drawn up
+
   document.querySelector('.game-complete .steps-count').innerText = String(
-    Player.stepCount - 1
+    Player.stepCount
   );
 
   CompletionBox.classList.add('show');
