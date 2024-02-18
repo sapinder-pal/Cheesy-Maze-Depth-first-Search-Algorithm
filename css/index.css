@@ -18,22 +18,30 @@
 }
 
 body {
+  --color-background: hsl(0, 93%, 77%);
+  --color-secondary-background: hsl(0, 100%, 73%);
+  --color-text: hsl(0, 0%, 94%);
+
   --bs-body-font-family: 'Open Sans', sans-serif;
   --bs-body-font-size: 16px;
-  --bs-body-color: hsl(0, 0%, 94%);
-  background: hsl(0, 93%, 77%);
-}
-/* button::-moz-focus-inner {
-  border: 0;
-} */
+  --bs-body-color: var(--color-text);
 
+  background-color: var(--color-background);
+}
+
+.change-btn {
+  --bs-btn-bg: var(--color-secondary-background);
+  --bs-btn-border-color: var(--bs-btn-bg);
+  --bs-btn-hover-color: var(--bs-btn-bg);
+  --bs-btn-hover-border-color: var(--bs-btn-bg);
+}
 .canvas {
-  background: rgba(193, 78, 78, 0.71);
+  background: var(--color-secondary-background);
 }
 
 .game-complete,
 .preparing-grid {
-  background: rgba(25, 21, 21, 0.71);
+  background: hsla(0, 9%, 9%, 0.71);
 }
 
 /* on game completion */
