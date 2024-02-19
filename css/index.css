@@ -16,6 +16,9 @@
 .fs-4 {
   font-size: calc(1.2rem + 0.3vw) !important;
 }
+.fs-5 {
+  font-size: 0.9em !important;
+}
 
 body {
   --color-background: hsl(0, 93%, 77%);
