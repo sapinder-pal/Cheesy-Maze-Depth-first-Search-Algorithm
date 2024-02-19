@@ -6,8 +6,8 @@ let completionBox = document.querySelector('.game-complete');
 let restartButton = document.querySelector('#restart');
 
 export default class Game {
-  static #gridOrder;
   static context;
+  #gridOrder;
   maze;
   player;
 
@@ -17,11 +17,11 @@ export default class Game {
   }
 
   set gridOrder(value) {
-    Game.#gridOrder = parseInt(value);
+    this.#gridOrder = parseInt(value);
   }
 
   get gridOrder() {
-    return Game.#gridOrder;
+    return this.#gridOrder;
   }
 
   setOrder(value) {
