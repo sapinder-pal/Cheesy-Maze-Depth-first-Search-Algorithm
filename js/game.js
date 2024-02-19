@@ -3,7 +3,7 @@ import { canvas, formSelect } from './index.js';
 import Maze from './mazeContainer.js';
 
 let completionBox = document.querySelector('.game-complete');
-let restartButton = document.querySelector('#restart');
+let restartButton = document.getElementById('restart');
 
 export default class Game {
   static context;
