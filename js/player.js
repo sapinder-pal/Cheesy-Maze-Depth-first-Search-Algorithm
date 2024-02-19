@@ -1,7 +1,7 @@
 import { currentGame } from './index.js';
 
 export default class Player {
-  #stepCount = 0;
+  #stepCount;
 
   constructor(maze) {
     this.maze = maze;
@@ -9,6 +9,8 @@ export default class Player {
     this.width = maze.cellWidth;
     this.height = maze.cellHeight;
     this.HeaderSpan = document.querySelector('.header .steps-count');
+
+    this.stepCount = 0;
   }
 
   get stepCount() {
