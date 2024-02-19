@@ -3,6 +3,8 @@ import { gameContainer, currentGame } from './index.js';
 import Player from './player.js';
 
 export default class Maze {
+  #mapRefreshRate;
+
   constructor(ctx) {
     this.ctx = ctx;
     this.width = this.height = gameContainer.offsetWidth;
@@ -13,6 +15,19 @@ export default class Maze {
 
     this.grid = []; // to store individual cells
     this.stack = []; // to push each visited cell for tracking previous steps
+
+    this.#mapRefreshRate = this.#getMapRefreshRate();
+  }
+
+  #getMapRefreshRate() {
+    switch (currentGame.getLevelName()) {
+      case 'hard':
+        return 0.01;
+      case 'extreme':
+        return 0.0001;
+      default:
+        return 0.1;
+    }
   }
 
   //define grid
@@ -80,7 +95,7 @@ export default class Maze {
       return;
     }
 
-    window.requestAnimationFrame(_ => this.drawMap());
+    window.setTimeout(() => this.drawMap(), this.#mapRefreshRate);
   }
 
   // point to start drawing cell (either of four corners)
