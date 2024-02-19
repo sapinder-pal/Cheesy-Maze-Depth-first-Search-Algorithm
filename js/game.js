@@ -63,7 +63,7 @@ export default class Game {
     );
 
     completionBox.classList.add('show');
-    restartButton.addEventListener('click', this.restart);
+    restartButton.addEventListener('click', this.restart.bind(this));
   }
 
   restart() {
