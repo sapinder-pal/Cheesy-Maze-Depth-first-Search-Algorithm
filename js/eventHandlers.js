@@ -1,4 +1,4 @@
-import { GameContainer, Canvas, currentGame } from './index.js';
+import { gameContainer, canvas, currentGame } from './index.js';
 
 let GestureStartX, GestureStartY;
 let GestureEndX, GestureEndY;
@@ -14,28 +14,28 @@ export function handleGestureStart(evt) {
   if (evt.type === 'touchstart') {
     if (evt.touches && evt.touches.length > 1) return; // exit function if multi-touch occurred
 
-    GestureStartX = evt.targetTouches[0].pageX - GameContainer.offsetLeft;
-    GestureStartY = evt.targetTouches[0].pageY - GameContainer.offsetTop;
+    GestureStartX = evt.targetTouches[0].pageX - gameContainer.offsetLeft;
+    GestureStartY = evt.targetTouches[0].pageY - gameContainer.offsetTop;
 
-    Canvas.addEventListener('touchend', handleGestureEnd);
+    canvas.addEventListener('touchend', handleGestureEnd);
   } else {
     /* Handle MouseDown */
-    GestureStartX = evt.pageX - GameContainer.offsetLeft;
-    GestureStartY = evt.pageY - GameContainer.offsetTop;
+    GestureStartX = evt.pageX - gameContainer.offsetLeft;
+    GestureStartY = evt.pageY - gameContainer.offsetTop;
 
-    Canvas.addEventListener('mouseup', handleGestureEnd);
+    canvas.addEventListener('mouseup', handleGestureEnd);
   }
 }
 
 function handleGestureEnd(evt) {
   /* Handle TouchEnd */
   if (evt.type === 'touchend') {
-    GestureEndX = evt.changedTouches[0].pageX - GameContainer.offsetLeft;
-    GestureEndY = evt.changedTouches[0].pageY - GameContainer.offsetTop;
+    GestureEndX = evt.changedTouches[0].pageX - gameContainer.offsetLeft;
+    GestureEndY = evt.changedTouches[0].pageY - gameContainer.offsetTop;
   } else {
     /* Handle MouseUp */
-    GestureEndX = evt.pageX - GameContainer.offsetLeft;
-    GestureEndY = evt.pageY - GameContainer.offsetTop;
+    GestureEndX = evt.pageX - gameContainer.offsetLeft;
+    GestureEndY = evt.pageY - gameContainer.offsetTop;
   }
 
   let player = currentGame.player;

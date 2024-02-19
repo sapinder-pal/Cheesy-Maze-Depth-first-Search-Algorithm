@@ -1,11 +1,11 @@
 import Cell from './cell.js';
-import { GameContainer, currentGame } from './index.js';
+import { gameContainer, currentGame } from './index.js';
 import Player from './player.js';
 
 export default class Maze {
   constructor(ctx) {
     this.ctx = ctx;
-    this.width = this.height = GameContainer.offsetWidth;
+    this.width = this.height = gameContainer.offsetWidth;
     this.rows = currentGame.gridOrder;
     this.columns = this.rows;
     this.cellWidth = this.width / this.columns;

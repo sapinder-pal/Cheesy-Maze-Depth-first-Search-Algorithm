@@ -1,5 +1,5 @@
 import { handleGestureStart, handleKeyDown } from './eventHandlers.js';
-import { Canvas, FormSelect } from './index.js';
+import { canvas, formSelect } from './index.js';
 import Maze from './mazeContainer.js';
 
 let completionBox = document.querySelector('.game-complete');
@@ -12,8 +12,8 @@ export default class Game {
   player;
 
   constructor() {
-    this.gridOrder = FormSelect.value;
-    this.context = Canvas.getContext('2d');
+    this.gridOrder = formSelect.value;
+    this.context = canvas.getContext('2d');
   }
 
   set gridOrder(value) {
@@ -37,14 +37,14 @@ export default class Game {
 
   listenMoves() {
     window.addEventListener('keydown', handleKeyDown);
-    Canvas.addEventListener('touchstart', handleGestureStart);
-    Canvas.addEventListener('mousedown', handleGestureStart);
+    canvas.addEventListener('touchstart', handleGestureStart);
+    canvas.addEventListener('mousedown', handleGestureStart);
   }
 
   unListenMoves() {
     window.removeEventListener('keydown', handleKeyDown);
-    Canvas.removeEventListener('touchstart', handleGestureStart);
-    Canvas.removeEventListener('mousedown', handleGestureStart);
+    canvas.removeEventListener('touchstart', handleGestureStart);
+    canvas.removeEventListener('mousedown', handleGestureStart);
   }
 
   checkCompletion() {
