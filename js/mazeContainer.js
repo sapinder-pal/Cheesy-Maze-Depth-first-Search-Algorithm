@@ -9,7 +9,8 @@ export default class Maze {
 
   constructor(ctx) {
     this.ctx = ctx;
-    this.width = this.height = gameContainer.offsetWidth;
+    this.width = gameContainer.offsetWidth;
+    this.height = gameContainer.offsetHeight;
     this.rows = currentGame.gridOrder;
     this.columns = this.rows;
     this.cellWidth = this.width / this.columns;

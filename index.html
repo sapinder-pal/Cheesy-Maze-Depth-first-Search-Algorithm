@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="css/index.css" />
   </head>
   <body
-    class="px-1 py-3 px-sm-5 min-vh-100 d-flex flex-column justify-content-start flex-nowrap row-gap-5">
+    class="h-100 px-1 py-3 px-sm-5 d-flex flex-column justify-content-start flex-nowrap row-gap-lg-5 row-gap-sm-3">
     <header
       class="header position-relative px-5 px-sm-0 py-3 d-flex flex-row justify-content-between align-items-center">
       <p class="m-0">Steps moved: <span class="steps-count">0</span></p>
@@ -51,21 +51,23 @@
         </form>
       </div>
     </header>
-    <main>
+    <main class="main h-100 d-flex justify-content-center align-items-center">
       <div
         id="game-container"
-        class="position-relative min-vw-75 game-container">
-        <canvas id="canvas" class="w-100 canvas"></canvas>
+        class="position-relative h-100 w-100 game-container">
+        <canvas id="canvas" class="canvas"></canvas>
 
         <div
-          class="d-none position-absolute top-0 start-0 w-100 h-100 text-center py-50 px-1 preparing-grid">
-          <div class="text-wrapper translate-middle-y">
-            <h2 class="fs-2">Building Road to Cheese...</h2>
+          class="d-none position-absolute top-0 start-0 w-100 h-100 px-1 preparing-grid">
+          <div
+            class="text-wrapper h-100 d-flex justify-content-center align-items-center">
+            <h2 class="fs-2 text-center">Building Road to Cheese...</h2>
           </div>
         </div>
         <div
-          class="d-none position-absolute top-0 start-0 w-100 h-100 text-center py-50 px-1 game-complete">
-          <div class="text-wrapper translate-middle-y">
+          class="d-none position-absolute top-0 start-0 w-100 h-100 px-1 game-complete">
+          <div
+            class="text-wrapper h-100 d-flex flex-column justify-content-center align-items-center">
             <h2 class="fs-2">Aha... Got the Cheese!</h2>
             <h4 class="fs-3 mt-3">
               You've moved <span class="steps-count"></span> steps to get the
@@ -73,7 +75,7 @@
             </h4>
             <button
               id="restart"
-              class="btn btn-lg btn-primary mt-3 fs-4 px-lg-5 restart">
+              class="btn btn-lg mt-3 fs-4 px-lg-5 restart-btn">
               Play Again!
             </button>
           </div>

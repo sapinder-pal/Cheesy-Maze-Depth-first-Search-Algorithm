@@ -32,7 +32,8 @@ body {
   background-color: var(--color-background);
 }
 
-.change-btn {
+.change-btn,
+.restart-btn {
   --bs-btn-bg: var(--color-secondary-background);
   --bs-btn-border-color: var(--bs-btn-bg);
   --bs-btn-hover-color: var(--bs-btn-bg);
@@ -40,6 +41,7 @@ body {
 }
 .canvas {
   background: var(--color-secondary-background);
+  aspect-ratio: auto;
 }
 
 .game-complete,
@@ -50,4 +52,24 @@ body {
 /* on game completion */
 .show {
   display: initial !important;
+}
+
+@media screen and (width <= 500px) {
+  .game-container {
+    aspect-ratio: 3/4;
+    width: 100%;
+    height: unset !important;
+  }
+}
+
+@media screen and (width > 500px) and (width <= 1000px) {
+  .game-container {
+    aspect-ratio: 4/3;
+  }
+}
+@media screen and (width > 1000px) {
+  .game-container {
+    max-width: 75vw;
+    aspect-ratio: 16/9;
+  }
 }

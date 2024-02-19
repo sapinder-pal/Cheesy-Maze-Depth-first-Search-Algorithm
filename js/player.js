@@ -6,8 +6,9 @@ export default class Player {
   constructor(maze) {
     this.maze = maze;
     this.ctx = maze.ctx;
-    this.width = maze.cellWidth;
-    this.height = maze.cellHeight;
+    this.cellWidth = maze.cellWidth;
+    this.cellHeight = maze.cellHeight;
+
     this.HeaderSpan = document.querySelector('.header .steps-count');
 
     this.stepCount = 0;
@@ -32,28 +33,36 @@ export default class Player {
 
   drawPlayer(isInitialDraw) {
     //update Coordinates of player
-    this.xCord = this.colNum * this.width;
-    this.yCord = this.rowNum * this.height;
+    this.xCord = this.colNum * this.cellWidth;
+    this.yCord = this.rowNum * this.cellHeight;
 
     let mouse = new Image();
+    this.#setMouseSize(mouse);
 
-    mouse.height = this.height * 1.5; // scale mouse inside 'player' cell
-    mouse.yPos = this.yCord - mouse.height / 6; // adjust vertical pos according to mouse's height
-
-    // 'player' refers to 'this'(player) inside function definition below
-    let player = this;
+    mouse.xPos = this.xCord + this.cellWidth / 2 - mouse.width / 2;
+    mouse.yPos = this.yCord + this.cellHeight / 2 - mouse.height / 2;
 
     mouse.onload = () =>
-      player.ctx.drawImage(
+      this.ctx.drawImage(
         mouse,
-        player.xCord,
+        mouse.xPos,
         mouse.yPos,
-        player.width,
+        mouse.width,
         mouse.height
       );
     mouse.src = './assets/mouse.svg';
 
     if (!isInitialDraw) this.stepCount += 1;
+  }
+
+  #setMouseSize(mouse) {
+    if (this.cellWidth >= this.cellHeight) {
+      mouse.height = this.cellHeight;
+      mouse.width = this.cellWidth * (this.cellHeight / this.cellWidth);
+    } else {
+      mouse.width = this.cellWidth;
+      mouse.height = this.cellHeight * (this.cellWidth / this.cellHeight);
+    }
   }
 
   move(data, gestureTarget) {
