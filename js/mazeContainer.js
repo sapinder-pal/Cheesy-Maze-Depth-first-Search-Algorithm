@@ -1,6 +1,8 @@
 import Cell from './cell.js';
-import { gameContainer, currentGame } from './index.js';
+import { gameContainer, currentGame, canvas } from './index.js';
 import Player from './player.js';
+
+const preparingGrid = document.querySelector('.preparing-grid');
 
 export default class Maze {
   #mapRefreshRate;
@@ -54,7 +56,7 @@ export default class Maze {
     this.player = new Player(this);
 
     // show preparing-stuff
-    document.querySelector('.preparing-grid').classList.add('show');
+    preparingGrid.classList.add('show');
 
     //set random starting point
     this.currentCell = this.startPoint();
@@ -62,7 +64,6 @@ export default class Maze {
   }
 
   drawMap() {
-    let canvas = document.getElementById('canvas');
     canvas.width = this.width;
     canvas.height = this.height;
 
@@ -91,7 +92,7 @@ export default class Maze {
       // set player
       this.player.setPlayer();
       // remove Preparing Screen
-      document.querySelector('.preparing-grid').classList.remove('show');
+      preparingGrid.classList.remove('show');
       return;
     }
 
