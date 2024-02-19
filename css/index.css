@@ -54,20 +54,28 @@ body {
   display: initial !important;
 }
 
-@media screen and (width <= 500px) {
+@media screen and (width < 500px) and (max-aspect-ratio: 4/3) {
   .game-container {
     aspect-ratio: 3/4;
-    width: 100%;
+    width: 100% !important;
     height: unset !important;
   }
 }
 
-@media screen and (width > 500px) and (width <= 1000px) {
+@media screen and (width > 500px) and (max-aspect-ratio: 2/1) {
   .game-container {
-    aspect-ratio: 4/3;
+    aspect-ratio: 1/1;
   }
 }
-@media screen and (width > 1000px) {
+
+@media screen and (width < 1000px) and (min-aspect-ratio: 2/1) {
+  .game-container {
+    max-width: 75vw;
+    aspect-ratio: 16/9;
+  }
+}
+
+@media screen and (width > 1000px) and (min-aspect-ratio: 16/9) {
   .game-container {
     max-width: 75vw;
     aspect-ratio: 16/9;
