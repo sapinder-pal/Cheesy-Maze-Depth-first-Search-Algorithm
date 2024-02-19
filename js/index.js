@@ -11,8 +11,8 @@ currentGame.initiate();
 let ChangeBtn = document.getElementById('change');
 
 ChangeBtn.addEventListener('click', () => {
-  if (formSelect.value !== Game.gridOrder) {
-    Game.context.clearRect(
+  if (formSelect.value != currentGame.gridOrder) {
+    currentGame.context.clearRect(
       0,
       0,
       gameContainer.offsetWidth,
