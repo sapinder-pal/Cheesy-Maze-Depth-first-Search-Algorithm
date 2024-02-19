@@ -1,3 +1,5 @@
+import { currentGame } from './index.js';
+
 export default class Player {
   #stepCount = 0;
 
@@ -6,7 +8,7 @@ export default class Player {
     this.ctx = maze.ctx;
     this.width = maze.cellWidth;
     this.height = maze.cellHeight;
-    this.HeaderSpan = document.querySelector(".header .steps-count");
+    this.HeaderSpan = document.querySelector('.header .steps-count');
   }
 
   get stepCount() {
@@ -47,7 +49,7 @@ export default class Player {
         player.width,
         mouse.height
       );
-    mouse.src = "./assets/mouse.svg";
+    mouse.src = './assets/mouse.svg';
 
     if (!isInitialDraw) this.stepCount += 1;
   }
@@ -81,6 +83,8 @@ export default class Player {
       );
       current.drawCell();
       this.drawPlayer();
+
+      currentGame.checkCompletion();
     }
   }
 

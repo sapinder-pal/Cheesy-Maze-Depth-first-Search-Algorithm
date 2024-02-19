@@ -1,13 +1,10 @@
-import { CheesyMaze, GameContainer, Canvas, checkCompletion } from './index.js';
+import { GameContainer, Canvas, currentGame } from './index.js';
 
 let GestureStartX, GestureStartY;
 let GestureEndX, GestureEndY;
 
 export function handleKeyDown(evt) {
-  let Player = CheesyMaze.player;
-  Player.move({ keyCode: evt.keyCode });
-
-  checkCompletion();
+  currentGame.player.move({ keyCode: evt.keyCode });
 }
 
 export function handleGestureStart(evt) {
@@ -41,47 +38,46 @@ function handleGestureEnd(evt) {
     GestureEndY = evt.pageY - GameContainer.offsetTop;
   }
 
-  let Player = CheesyMaze.player;
+  let player = currentGame.player;
   // Cell Range
-  let PlayerRangeX = Player.xCord + Player.width;
-  let PlayerRangeY = Player.yCord + Player.height;
+  let playerRangeX = player.xCord + player.width;
+  let playerRangeY = player.yCord + player.height;
 
-  // Check gesture occurred on Player cell
-  let isPlayerCol =
-    GestureStartX >= Player.xCord && GestureStartX <= PlayerRangeX;
-  let isPlayerRow =
-    GestureStartY >= Player.yCord && GestureStartY <= PlayerRangeY;
-  let gestureOnPlayer = isPlayerCol && isPlayerRow;
+  // Check gesture occurred on player cell
+  let isplayerCol =
+    GestureStartX >= player.xCord && GestureStartX <= playerRangeX;
+  let isplayerRow =
+    GestureStartY >= player.yCord && GestureStartY <= playerRangeY;
+  let gestureOnplayer = isplayerCol && isplayerRow;
 
-  if (gestureOnPlayer) {
-    // Check if target is either of Player's neighbor
-    let targetColumn = Math.floor(GestureEndX / CheesyMaze.cellWidth);
-    let targetRow = Math.floor(GestureEndY / CheesyMaze.cellHeight);
+  if (gestureOnplayer) {
+    let maze = currentGame.maze;
+    // Check if target is either of player's neighbor
+    let targetColumn = Math.floor(GestureEndX / maze.cellWidth);
+    let targetRow = Math.floor(GestureEndY / maze.cellHeight);
 
     let possibleTargets = {
       left:
-        Player.colNum !== 0
-          ? CheesyMaze.grid[Player.rowNum][Player.colNum - 1]
+        player.colNum !== 0
+          ? maze.grid[player.rowNum][player.colNum - 1]
           : undefined,
 
       top:
-        Player.rowNum !== 0
-          ? CheesyMaze.grid[Player.rowNum - 1][Player.colNum]
+        player.rowNum !== 0
+          ? maze.grid[player.rowNum - 1][player.colNum]
           : undefined,
 
       right:
-        Player.colNum !== CheesyMaze.gridLastColumn
-          ? CheesyMaze.grid[Player.rowNum][Player.colNum + 1]
+        player.colNum !== maze.gridLastColumn
+          ? maze.grid[player.rowNum][player.colNum + 1]
           : undefined,
 
       bottom:
-        Player.rowNum !== CheesyMaze.gridLastRow
-          ? CheesyMaze.grid[Player.rowNum + 1][Player.colNum]
+        player.rowNum !== maze.gridLastRow
+          ? maze.grid[player.rowNum + 1][player.colNum]
           : undefined,
     };
 
-    Player.move(possibleTargets, CheesyMaze.grid[targetRow][targetColumn]);
+    player.move(possibleTargets, maze.grid[targetRow][targetColumn]);
   }
-
-  checkCompletion();
 }

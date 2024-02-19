@@ -1,15 +1,15 @@
 import Cell from './cell.js';
+import { GameContainer, currentGame } from './index.js';
 import Player from './player.js';
 
 export default class Maze {
-  constructor(ctx, width, height, rows, columns) {
+  constructor(ctx) {
     this.ctx = ctx;
-    this.width = width;
-    this.height = height;
-    this.rows = rows;
-    this.columns = columns;
-    this.cellWidth = width / columns;
-    this.cellHeight = height / rows;
+    this.width = this.height = GameContainer.offsetWidth;
+    this.rows = currentGame.gridOrder;
+    this.columns = this.rows;
+    this.cellWidth = this.width / this.columns;
+    this.cellHeight = this.height / this.rows;
 
     this.grid = []; // to store individual cells
     this.stack = []; // to push each visited cell for tracking previous steps
