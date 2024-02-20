@@ -49,33 +49,47 @@ body {
   background: hsla(0, 9%, 9%, 0.71);
 }
 
-/* on game completion */
+.icon-settings {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
 .show {
   display: initial !important;
 }
 
-@media screen and (width < 500px) and (max-aspect-ratio: 4/3) {
+@media screen and (width < 500px) and (orientation: portrait) {
   .game-container {
     aspect-ratio: 3/4;
     width: 100% !important;
     height: unset !important;
   }
 }
-
-@media screen and (width > 500px) and (max-aspect-ratio: 2/1) {
-  .game-container {
-    aspect-ratio: 1/1;
+@media screen and (height < 500px) and (orientation: landscape) {
+  body {
+    --bs-body-font-size: 14px;
   }
-}
-
-@media screen and (width < 1000px) and (min-aspect-ratio: 2/1) {
   .game-container {
+    aspect-ratio: 2/1;
+    height: 100% !important;
     max-width: 75vw;
-    aspect-ratio: 16/9;
   }
 }
 
-@media screen and (width > 1000px) and (min-aspect-ratio: 16/9) {
+@media screen and (width >= 500px) and (height >= 500px) {
+  .game-container {
+    aspect-ratio: 4/3;
+  }
+}
+
+@media screen and (width >= 800px) and (height >= 500px) and (min-aspect-ratio: 4/3) {
+  .game-container {
+    max-width: 80vw;
+    aspect-ratio: 5/3;
+  }
+}
+
+@media screen and (width >= 1000px) and (min-aspect-ratio: 16/9) {
   .game-container {
     max-width: 75vw;
     aspect-ratio: 16/9;
