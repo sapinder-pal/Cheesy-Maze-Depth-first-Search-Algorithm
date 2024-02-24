@@ -1,0 +1,76 @@
+body {
+  --color-background: #fb8e8e;
+  --color-secondary-background: #ff7575;
+  --color-text: #f0f0f0;
+  --bs-body-font-family: "Open Sans", sans-serif;
+  --bs-body-font-size: 16px;
+  --bs-body-color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+.change-btn, .restart-btn {
+  --bs-btn-bg: var(--color-secondary-background);
+  --bs-btn-border-color: var(--bs-btn-bg);
+  --bs-btn-hover-color: var(--bs-btn-bg);
+  --bs-btn-hover-border-color: var(--bs-btn-bg);
+}
+
+.canvas {
+  background: var(--color-secondary-background);
+  aspect-ratio: auto;
+}
+
+.game-complete, .preparing-grid {
+  background: #191515b5;
+}
+
+.icon-settings {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.show {
+  display: initial !important;
+}
+
+@media screen and (width < 500px) and (orientation: portrait) {
+  .game-container {
+    aspect-ratio: 3 / 4;
+    height: unset !important;
+    width: 100% !important;
+  }
+}
+
+@media screen and (height < 500px) and (orientation: landscape) {
+  body {
+    --bs-body-font-size: 14px;
+  }
+
+  .game-container {
+    aspect-ratio: 2;
+    max-width: 75vw;
+    height: 100% !important;
+  }
+}
+
+@media screen and (width >= 500px) and (height >= 500px) {
+  .game-container {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media screen and (width >= 800px) and (height >= 500px) and (aspect-ratio >= 4 / 3) {
+  .game-container {
+    aspect-ratio: 5 / 3;
+    max-width: 80vw;
+  }
+}
+
+@media screen and (width >= 1000px) and (aspect-ratio >= 16 / 9) {
+  .game-container {
+    aspect-ratio: 16 / 9;
+    max-width: 75vw;
+  }
+}
+
+/*# sourceMappingURL=index.3092e1e0.css.map */

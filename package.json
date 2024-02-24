@@ -2,9 +2,11 @@
   "name": "cheesy-maze",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "source": "src/index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "parcel --port 3000 --open chrome",
+    "build": "parcel build"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,7 @@
   },
   "homepage": "https://github.com/sapinder-singh/Cheesy-Maze-Depth-First-Search-Algorithm#readme",
   "devDependencies": {
-    "eslint": "^8.56.0"
+    "eslint": "^8.56.0",
+    "parcel": "^2.11.0"
   }
 }
