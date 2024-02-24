@@ -28,6 +28,9 @@ export default class Player {
     this.colNum = this.maze.goal.colNum === 0 ? this.maze.gridLastColumn : 0;
     this.rowNum = this.maze.goal.rowNum === 0 ? this.maze.gridLastRow : 0;
 
+    this.imgSrc =
+      this.colNum === 0 ? `./assets/mouse.png` : './assets/mouse-reverse.png';
+
     this.drawPlayer(true);
   }
 
@@ -50,18 +53,24 @@ export default class Player {
         mouse.width,
         mouse.height
       );
-    mouse.src = './assets/mouse.svg';
+
+    mouse.src = this.imgSrc;
 
     if (!isInitialDraw) this.stepCount += 1;
   }
 
   #setMouseSize(mouse) {
-    if (this.cellWidth >= this.cellHeight) {
-      mouse.height = this.cellHeight;
-      mouse.width = this.cellWidth * (this.cellHeight / this.cellWidth);
+    const cellWallOffset = 2;
+    const netHeight = this.cellHeight - cellWallOffset;
+    const netWidth = this.cellWidth - cellWallOffset;
+
+    // restrict size to the max of smaller cell dimension
+    if (netWidth >= netHeight) {
+      mouse.height = netHeight;
+      mouse.width = netWidth * (netHeight / netWidth);
     } else {
-      mouse.width = this.cellWidth;
-      mouse.height = this.cellHeight * (this.cellWidth / this.cellHeight);
+      mouse.width = netWidth;
+      mouse.height = netHeight * (netWidth / netHeight);
     }
   }
 
