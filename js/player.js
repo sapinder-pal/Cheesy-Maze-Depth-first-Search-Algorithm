@@ -40,10 +40,8 @@ export default class Player {
     this.yCord = this.rowNum * this.cellHeight;
 
     let mouse = new Image();
-    this.#setMouseSize(mouse);
-
-    mouse.xPos = this.xCord + this.cellWidth / 2 - mouse.width / 2;
-    mouse.yPos = this.yCord + this.cellHeight / 2 - mouse.height / 2;
+    this.maze.setImageNetSize(mouse, 2);
+    this.maze.setImagePosInsideCell(mouse, this.xCord, this.yCord);
 
     mouse.onload = () =>
       this.ctx.drawImage(
@@ -57,21 +55,6 @@ export default class Player {
     mouse.src = this.imgSrc;
 
     if (!isInitialDraw) this.stepCount += 1;
-  }
-
-  #setMouseSize(mouse) {
-    const cellWallOffset = 2;
-    const netHeight = this.cellHeight - cellWallOffset;
-    const netWidth = this.cellWidth - cellWallOffset;
-
-    // restrict size to the max of smaller cell dimension
-    if (netWidth >= netHeight) {
-      mouse.height = netHeight;
-      mouse.width = netWidth * (netHeight / netWidth);
-    } else {
-      mouse.width = netWidth;
-      mouse.height = netHeight * (netWidth / netHeight);
-    }
   }
 
   move(data, gestureTarget) {

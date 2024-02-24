@@ -89,7 +89,7 @@ export default class Maze {
     // if can't go back, set goal & player
     if (this.stack.length === 0) {
       this.goal = this.currentCell;
-      this.drawGoal(this.goal);
+      this.drawGoal();
 
       // set player
       this.player.setPlayer();
@@ -113,24 +113,38 @@ export default class Maze {
     return corners[Math.floor(Math.random() * 4)];
   }
 
-  drawGoal(goal) {
+  drawGoal() {
     let cheese = new Image();
-
-    cheese.width = goal.width * 2; // scale cheese inside goal cell
-    cheese.height = goal.height * 2;
-
-    // adjust cheese position according to its size
-    cheese.xPos = goal.xCord - cheese.width / 4;
-    cheese.yPos = goal.yCord - cheese.height / 8;
+    this.setImageNetSize(cheese, 2);
+    this.setImagePosInsideCell(cheese, this.goal.xCord, this.goal.yCord);
 
     cheese.onload = () =>
-      goal.ctx.drawImage(
+      this.ctx.drawImage(
         cheese,
         cheese.xPos,
         cheese.yPos,
         cheese.width,
         cheese.height
       );
-    cheese.src = './assets/cheese.svg';
+    cheese.src = './assets/cheese.png';
+  }
+
+  setImageNetSize(image, cellWallOffset) {
+    const netHeight = this.cellHeight - cellWallOffset;
+    const netWidth = this.cellWidth - cellWallOffset;
+
+    // restrict size to the max of smaller cell dimension
+    if (netWidth >= netHeight) {
+      image.height = netHeight;
+      image.width = netWidth * (netHeight / netWidth);
+    } else {
+      image.width = netWidth;
+      image.height = netHeight * (netWidth / netHeight);
+    }
+  }
+
+  setImagePosInsideCell(image, xCord, yCord) {
+    image.xPos = xCord + this.cellWidth / 2 - image.width / 2;
+    image.yPos = yCord + this.cellHeight / 2 - image.height / 2;
   }
 }
