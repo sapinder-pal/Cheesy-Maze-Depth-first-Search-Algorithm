@@ -126,7 +126,7 @@ export default class Maze {
         cheese.width,
         cheese.height
       );
-    cheese.src = './assets/cheese.png';
+    cheese.src = require('../assets/cheese.png');
   }
 
   setImageNetSize(image, cellWallOffset) {

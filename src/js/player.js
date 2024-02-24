@@ -28,8 +28,10 @@ export default class Player {
     this.colNum = this.maze.goal.colNum === 0 ? this.maze.gridLastColumn : 0;
     this.rowNum = this.maze.goal.rowNum === 0 ? this.maze.gridLastRow : 0;
 
-    this.imgSrc =
-      this.colNum === 0 ? `./assets/mouse.png` : './assets/mouse-reverse.png';
+    this.imgUrl =
+      this.colNum === 0
+        ? require('../assets/mouse.png')
+        : require('../assets/mouse-reverse.png');
 
     this.drawPlayer(true);
   }
@@ -52,7 +54,7 @@ export default class Player {
         mouse.height
       );
 
-    mouse.src = this.imgSrc;
+    mouse.src = this.imgUrl;
 
     if (!isInitialDraw) this.stepCount += 1;
   }
