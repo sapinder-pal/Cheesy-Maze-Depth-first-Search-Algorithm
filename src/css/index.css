@@ -37,8 +37,11 @@ body {
 }
 
 @media screen and (width < 500px) and (orientation: portrait) {
+  .settings {
+    display: none;
+  }
   .game-container {
-    aspect-ratio: 3/4;
+    aspect-ratio: 3/5;
     width: 100% !important;
     height: unset !important;
   }
