@@ -1,5 +1,5 @@
 import { handleGestureStart, handleKeyDown } from './eventHandlers.js';
-import { canvas, formSelect } from './index.js';
+import { canvas, formSelect, gameContainer } from './index.js';
 import Maze from './mazeContainer.js';
 
 let completionBox = document.querySelector('.game-complete');
@@ -14,6 +14,17 @@ export default class Game {
   constructor() {
     this.gridOrder = formSelect.value;
     this.context = canvas.getContext('2d');
+
+    const dpr = window.devicePixelRatio;
+    const rect = gameContainer.getBoundingClientRect();
+
+    gameContainer.width = rect.width * dpr;
+    gameContainer.height = rect.height * dpr;
+
+    this.context.scale(dpr, dpr);
+
+    gameContainer.style.width = `${rect.width}px`;
+    gameContainer.style.height = `${rect.height}px`;
   }
 
   set gridOrder(value) {
