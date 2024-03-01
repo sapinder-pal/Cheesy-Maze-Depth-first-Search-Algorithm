@@ -41,12 +41,15 @@ body {
     display: none;
   }
   .game-container {
-    aspect-ratio: 3/5;
+    aspect-ratio: 3/4;
     width: 100% !important;
     height: unset !important;
   }
 }
 @media screen and (height < 500px) and (orientation: landscape) {
+  .settings {
+    display: none;
+  }
   body {
     --bs-body-font-size: 14px;
   }

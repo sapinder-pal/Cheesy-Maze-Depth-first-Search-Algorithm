@@ -73,8 +73,4 @@ export default class Game {
 
     restartButton.removeEventListener('click', this.restart);
   }
-
-  getLevelName() {
-    return formSelect.options[formSelect.options.selectedIndex].innerText;
-  }
 }

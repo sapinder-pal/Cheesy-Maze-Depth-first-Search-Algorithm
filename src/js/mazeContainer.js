@@ -20,18 +20,7 @@ export default class Maze {
     this.grid = []; // to store individual cells
     this.stack = []; // to push each visited cell for tracking previous steps
 
-    this.#mapRefreshRate = this.#getMapRefreshRate();
-  }
-
-  #getMapRefreshRate() {
-    switch (currentGame.getLevelName()) {
-      case 'hard':
-        return 0.01;
-      case 'extreme':
-        return 0.0001;
-      default:
-        return 0.1;
-    }
+    this.#mapRefreshRate = 0.0001;
   }
 
   //define grid
