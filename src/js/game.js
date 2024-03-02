@@ -14,18 +14,6 @@ export default class Game {
   constructor() {
     this.gridOrder = formSelect.value;
     this.context = canvas.getContext('2d');
-
-    // scale to device-pixel-ratio
-    const dpr = window.devicePixelRatio;
-    const rect = gameContainer.getBoundingClientRect();
-
-    gameContainer.width = rect.width * dpr;
-    gameContainer.height = rect.height * dpr;
-
-    this.context.scale(dpr, dpr);
-
-    gameContainer.style.width = `${rect.width}px`;
-    gameContainer.style.height = `${rect.height}px`;
   }
 
   set gridOrder(value) {
@@ -41,6 +29,18 @@ export default class Game {
   }
 
   initiate() {
+    // scale to device-pixel-ratio
+    const dpr = window.devicePixelRatio;
+    const rect = gameContainer.getBoundingClientRect();
+
+    gameContainer.width = rect.width * dpr;
+    gameContainer.height = rect.height * dpr;
+
+    this.context.scale(dpr, dpr);
+
+    gameContainer.style.width = `${rect.width}px`;
+    gameContainer.style.height = `${rect.height}px`;
+
     this.maze = new Maze(this.context);
     this.maze.setup();
     this.player = this.maze.player;
