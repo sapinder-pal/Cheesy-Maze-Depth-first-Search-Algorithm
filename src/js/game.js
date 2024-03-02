@@ -15,6 +15,7 @@ export default class Game {
     this.gridOrder = formSelect.value;
     this.context = canvas.getContext('2d');
 
+    // scale to device-pixel-ratio
     const dpr = window.devicePixelRatio;
     const rect = gameContainer.getBoundingClientRect();
 
