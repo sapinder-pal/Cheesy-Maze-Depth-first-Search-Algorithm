@@ -40,14 +40,14 @@ function handleGestureEnd(evt) {
 
   let player = currentGame.player;
   // Cell Range
-  let playerRangeX = player.xCord + player.cellWidth;
-  let playerRangeY = player.yCord + player.cellHeight;
+  let playerRangeX = player.xLeftCord + player.cellWidth;
+  let playerRangeY = player.yTopCord + player.cellHeight;
 
   // Check gesture occurred on player cell
   let isplayerCol =
-    GestureStartX >= player.xCord && GestureStartX <= playerRangeX;
+    GestureStartX >= player.xLeftCord && GestureStartX <= playerRangeX;
   let isplayerRow =
-    GestureStartY >= player.yCord && GestureStartY <= playerRangeY;
+    GestureStartY >= player.yTopCord && GestureStartY <= playerRangeY;
   let gestureOnplayer = isplayerCol && isplayerRow;
 
   if (gestureOnplayer) {

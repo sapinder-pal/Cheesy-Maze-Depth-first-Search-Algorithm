@@ -38,12 +38,12 @@ export default class Player {
 
   drawPlayer(isInitialDraw) {
     //update Coordinates of player
-    this.xCord = this.colNum * this.cellWidth;
-    this.yCord = this.rowNum * this.cellHeight;
+    this.xLeftCord = this.colNum * this.cellWidth;
+    this.yTopCord = this.rowNum * this.cellHeight;
 
     let mouse = new Image();
     this.maze.setImageNetSize(mouse, 2);
-    this.maze.setImagePosInsideCell(mouse, this.xCord, this.yCord);
+    this.maze.setImagePosInsideCell(mouse, this.xLeftCord, this.yTopCord);
 
     mouse.onload = () =>
       this.ctx.drawImage(
@@ -81,8 +81,8 @@ export default class Player {
 
     if (changeOccurred) {
       this.ctx.clearRect(
-        current.xCord,
-        current.yCord,
+        current.xLeftCord,
+        current.yTopCord,
         current.width,
         current.height
       );
