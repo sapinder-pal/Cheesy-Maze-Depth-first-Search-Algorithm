@@ -22,13 +22,13 @@ export default class Cell {
     this.ctx.strokeStyle = 'white';
     this.ctx.lineWidth = 2;
 
-    if (this.walls.topWall) this.drawTopWall(this.xCord, this.yCord);
+    if (this.walls.topWall) this.drawTopWall();
 
-    if (this.walls.bottomWall) this.drawBottomWall(this.xCord, this.yCord);
+    if (this.walls.bottomWall) this.drawBottomWall();
 
-    if (this.walls.leftWall) this.drawLeftWall(this.xCord, this.yCord);
+    if (this.walls.leftWall) this.drawLeftWall();
 
-    if (this.walls.rightWall) this.drawRightWall(this.xCord, this.yCord);
+    if (this.walls.rightWall) this.drawRightWall();
   }
 
   drawTopWall() {
