@@ -25,6 +25,9 @@ export default class Maze {
 
   //define grid
   setup() {
+    canvas.width = this.width;
+    canvas.height = this.height;
+
     for (let rowNum = 0; rowNum < this.rows; rowNum++) {
       let row = [];
 
@@ -51,16 +54,12 @@ export default class Maze {
 
     //set random starting point
     this.currentCell = this.startPoint();
-    this.drawMap();
+    this.currentCell.visited = true;
+
+    this.traceMap();
   }
 
-  drawMap() {
-    canvas.width = this.width;
-    canvas.height = this.height;
-
-    this.currentCell.visited = true;
-    this.grid.forEach(row => row.forEach(col => col.drawCell()));
-
+  traceMap() {
     let nextCell = this.currentCell.next(this.grid);
     if (nextCell) {
       nextCell.visited = true;
@@ -77,17 +76,19 @@ export default class Maze {
 
     // if can't go back, set goal & player
     if (this.stack.length === 0) {
-      this.goal = this.currentCell;
-      this.drawGoal();
+      this.drawMap();
 
-      // set player
-      this.player.setPlayer();
       // remove Preparing Screen
       preparingGrid.classList.remove('show');
       return;
-    }
+    } else this.traceMap();
+  }
 
-    window.setTimeout(() => this.drawMap(), this.#mapRefreshRate);
+  drawMap() {
+    this.grid.forEach(row => row.forEach(col => col.drawCell()));
+    this.goal = this.currentCell;
+    this.drawGoal();
+    this.player.setPlayer();
   }
 
   // point to start drawing cell (either of four corners)
@@ -105,7 +106,7 @@ export default class Maze {
   drawGoal() {
     let cheese = new Image();
     this.setImageNetSize(cheese, 2);
-    this.setImagePosInsideCell(cheese, this.goal.xCord, this.goal.yCord);
+    this.setImagePosInsideCell(cheese, this.goal.xLeftCord, this.goal.yCord);
 
     cheese.onload = () =>
       this.ctx.drawImage(

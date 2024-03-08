@@ -42,7 +42,7 @@ export default class Player {
     this.yTopCord = this.rowNum * this.cellHeight;
 
     let mouse = new Image();
-    this.maze.setImageNetSize(mouse, 2);
+    this.maze.setImageNetSize(mouse, this.ctx.lineWidth);
     this.maze.setImagePosInsideCell(mouse, this.xLeftCord, this.yTopCord);
 
     mouse.onload = () =>
@@ -96,28 +96,28 @@ export default class Player {
   testCases(test, case1, case2, case3, case4, walls) {
     switch (test) {
       case case1:
-        if (!walls.leftWall) {
+        if (!walls.left) {
           this.colNum -= 1;
           return true;
         }
         break;
 
       case case2:
-        if (!walls.topWall) {
+        if (!walls.top) {
           this.rowNum -= 1;
           return true;
         }
         break;
 
       case case3:
-        if (!walls.rightWall) {
+        if (!walls.right) {
           this.colNum += 1;
           return true;
         }
         break;
 
       case case4:
-        if (!walls.bottomWall) {
+        if (!walls.bottom) {
           this.rowNum += 1;
           return true;
         }
