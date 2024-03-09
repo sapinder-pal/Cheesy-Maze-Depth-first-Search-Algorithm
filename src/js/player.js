@@ -44,10 +44,10 @@ export default class Player {
         ? require('../assets/mouse.png')
         : require('../assets/mouse-reverse.png');
 
-    this.drawPlayer(true);
+    this.#drawPlayer(true);
   }
 
-  drawPlayer(isInitialDraw) {
+  #drawPlayer(isInitialDraw) {
     //update Coordinates of player
     this.xLeftCord = this.colNum * this.cellWidth;
     this.yTopCord = this.rowNum * this.cellHeight;
@@ -82,7 +82,7 @@ export default class Player {
         currentCell.height
       );
       currentCell.drawCell();
-      this.drawPlayer();
+      this.#drawPlayer();
 
       currentGame.checkCompletion();
     }
