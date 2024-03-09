@@ -6,6 +6,7 @@ export default class Player {
   #stepCount;
   colNum;
   rowNum;
+  mouse;
   #imgUrl;
   #directionKeyCodes = new Map();
 
@@ -44,6 +45,18 @@ export default class Player {
         ? require('../assets/mouse.png')
         : require('../assets/mouse-reverse.png');
 
+    this.mouse = new Image();
+    this.maze.setImageNetSize(this.mouse, this.ctx.lineWidth);
+
+    this.mouse.onload = () =>
+      this.ctx.drawImage(
+        this.mouse,
+        this.mouse.xPos,
+        this.mouse.yPos,
+        this.mouse.width,
+        this.mouse.height
+      );
+
     this.#drawPlayer(true);
   }
 
@@ -52,20 +65,9 @@ export default class Player {
     this.xLeftCord = this.colNum * this.cellWidth;
     this.yTopCord = this.rowNum * this.cellHeight;
 
-    let mouse = new Image();
-    this.maze.setImageNetSize(mouse, this.ctx.lineWidth);
-    this.maze.setImagePosInsideCell(mouse, this.xLeftCord, this.yTopCord);
+    this.maze.setImagePosInsideCell(this.mouse, this.xLeftCord, this.yTopCord);
 
-    mouse.onload = () =>
-      this.ctx.drawImage(
-        mouse,
-        mouse.xPos,
-        mouse.yPos,
-        mouse.width,
-        mouse.height
-      );
-
-    mouse.src = this.#imgUrl;
+    this.mouse.src = this.#imgUrl;
 
     if (!isInitialDraw) this.stepCount += 1;
   }
@@ -75,12 +77,6 @@ export default class Player {
     let changeOccurred = this.#testMove(data, currentCell);
 
     if (changeOccurred) {
-      this.ctx.clearRect(
-        currentCell.xLeftCord,
-        currentCell.yTopCord,
-        currentCell.width,
-        currentCell.height
-      );
       currentCell.drawCell();
       this.#drawPlayer();
 

@@ -14,6 +14,7 @@ export default class Wall {
     this.ctx.beginPath();
     this.ctx.moveTo(this.xStart, this.yStart);
     this.ctx.lineTo(this.xEnd, this.yEnd);
+    this.ctx.closePath();
     this.ctx.stroke();
   }
 

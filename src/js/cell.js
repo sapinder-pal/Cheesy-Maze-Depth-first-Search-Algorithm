@@ -22,12 +22,7 @@ export default class Cell {
   }
 
   drawCell() {
-    this.ctx.clearRect(
-      this.xLeftCord,
-      this.yTopCord,
-      this.xRightCord,
-      this.yBottomCord
-    );
+    this.ctx.clearRect(this.xLeftCord, this.yTopCord, this.width, this.height);
 
     this.walls.forEach(wall => wall.draw());
   }
