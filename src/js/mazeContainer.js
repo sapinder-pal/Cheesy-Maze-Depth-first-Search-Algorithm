@@ -43,17 +43,15 @@ export default class Maze {
       }
       this.grid.push(row);
     }
-    // will be used to place player diagonally opposite to goal
+
     this.gridLastRow = this.grid.length - 1;
     this.gridLastColumn = this.grid[0].length - 1;
-
-    this.player = new Player(this);
 
     // show preparing-stuff
     preparingGrid.classList.add('show');
 
     //set random starting point
-    this.currentCell = this.startPoint();
+    this.currentCell = this.startPoint = this.#getStartPoint();
     this.currentCell.visited = true;
 
     this.traceMap();
@@ -74,7 +72,6 @@ export default class Maze {
       this.currentCell = this.stack.pop();
     }
 
-    // if can't go back, set goal & player
     if (this.stack.length === 0) {
       this.drawMap();
 
@@ -88,11 +85,12 @@ export default class Maze {
     this.grid.forEach(row => row.forEach(col => col.drawCell()));
     this.goal = this.currentCell;
     this.drawGoal();
-    this.player.setPlayer();
+
+    this.player = new Player(this);
   }
 
   // point to start drawing cell (either of four corners)
-  startPoint() {
+  #getStartPoint() {
     let corners = [
       this.grid[0][0],
       this.grid[this.gridLastRow][0],
@@ -105,8 +103,8 @@ export default class Maze {
 
   drawGoal() {
     let cheese = new Image();
-    this.setImageNetSize(cheese, 2);
-    this.setImagePosInsideCell(cheese, this.goal.xLeftCord, this.goal.yCord);
+    this.setImageNetSize(cheese, this.ctx.lineWidth);
+    this.setImagePosInsideCell(cheese, this.goal.xLeftCord, this.goal.yTopCord);
 
     cheese.onload = () =>
       this.ctx.drawImage(

@@ -16,10 +16,9 @@ export default class Cell {
     this.visited = false;
     this.walls = new Map();
 
-    this.walls.set('top', new Wall(this, 'top'));
-    this.walls.set('bottom', new Wall(this, 'bottom'));
-    this.walls.set('left', new Wall(this, 'left'));
-    this.walls.set('right', new Wall(this, 'right'));
+    ['top', 'bottom', 'left', 'right'].forEach(side =>
+      this.walls.set(side, new Wall(this, side))
+    );
   }
 
   drawCell() {

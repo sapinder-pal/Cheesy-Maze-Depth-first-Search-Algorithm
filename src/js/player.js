@@ -1,7 +1,13 @@
 import { currentGame } from './index.js';
 
+const headerSpan = document.querySelector('.header .steps-count');
+
 export default class Player {
   #stepCount;
+  colNum;
+  rowNum;
+  #imgUrl;
+  #directionKeyCodes = new Map();
 
   constructor(maze) {
     this.maze = maze;
@@ -9,9 +15,14 @@ export default class Player {
     this.cellWidth = maze.cellWidth;
     this.cellHeight = maze.cellHeight;
 
-    this.HeaderSpan = document.querySelector('.header .steps-count');
+    this.#directionKeyCodes.set('left', 37);
+    this.#directionKeyCodes.set('top', 38);
+    this.#directionKeyCodes.set('right', 39);
+    this.#directionKeyCodes.set('bottom', 40);
 
     this.stepCount = 0;
+
+    this.#setPlayer();
   }
 
   get stepCount() {
@@ -20,15 +31,15 @@ export default class Player {
 
   set stepCount(value) {
     this.#stepCount = value;
-    this.HeaderSpan.innerText = String(value);
+    headerSpan.innerText = String(value);
   }
 
-  setPlayer() {
+  #setPlayer() {
     // set player to diagonally opposite cell
     this.colNum = this.maze.goal.colNum === 0 ? this.maze.gridLastColumn : 0;
     this.rowNum = this.maze.goal.rowNum === 0 ? this.maze.gridLastRow : 0;
 
-    this.imgUrl =
+    this.#imgUrl =
       this.colNum === 0
         ? require('../assets/mouse.png')
         : require('../assets/mouse-reverse.png');
@@ -54,77 +65,77 @@ export default class Player {
         mouse.height
       );
 
-    mouse.src = this.imgUrl;
+    mouse.src = this.#imgUrl;
 
     if (!isInitialDraw) this.stepCount += 1;
   }
 
-  move(data, gestureTarget) {
-    let current = this.maze.grid[this.rowNum][this.colNum];
-    let walls = current.walls;
-    let changeOccurred = false;
-
-    // run test for keyboard inputs
-    if (gestureTarget == undefined)
-      // if gestureTarget isn't passed in i.e. it's a keyboard move
-      changeOccurred = this.testCases(data.keyCode, 37, 38, 39, 40, walls);
-    // run test for gesture
-    else
-      changeOccurred = this.testCases(
-        gestureTarget,
-        data.left,
-        data.top,
-        data.right,
-        data.bottom,
-        walls
-      );
+  move(data) {
+    let currentCell = this.maze.grid[this.rowNum][this.colNum];
+    let changeOccurred = this.#testMove(data, currentCell);
 
     if (changeOccurred) {
       this.ctx.clearRect(
-        current.xLeftCord,
-        current.yTopCord,
-        current.width,
-        current.height
+        currentCell.xLeftCord,
+        currentCell.yTopCord,
+        currentCell.width,
+        currentCell.height
       );
-      current.drawCell();
+      currentCell.drawCell();
       this.drawPlayer();
 
       currentGame.checkCompletion();
     }
   }
 
-  testCases(test, case1, case2, case3, case4, walls) {
+  #testMove(data, currentCell) {
+    let test,
+      testCases = new Map();
+    const walls = currentCell.walls;
+
+    if (data.type === 'key') {
+      testCases = this.#directionKeyCodes;
+      test = data.keyCode;
+    } else if (data.type === 'gesture') {
+      testCases = data.cellNeighbors;
+      test = data.targetCell;
+    } else {
+      console.error('Invalid input type received');
+      return false;
+    }
+
     switch (test) {
-      case case1:
-        if (!walls.left) {
+      case testCases.get('left'):
+        if (!walls.has('left')) {
           this.colNum -= 1;
           return true;
         }
         break;
 
-      case case2:
-        if (!walls.top) {
+      case testCases.get('top'):
+        if (!walls.has('top')) {
           this.rowNum -= 1;
           return true;
         }
         break;
 
-      case case3:
-        if (!walls.right) {
+      case testCases.get('right'):
+        if (!walls.has('right')) {
           this.colNum += 1;
           return true;
         }
         break;
 
-      case case4:
-        if (!walls.bottom) {
+      case testCases.get('bottom'):
+        if (!walls.has('bottom')) {
           this.rowNum += 1;
           return true;
         }
         break;
 
       default:
-        return undefined;
+        console.error('Invalid test received');
+        return false;
     }
   }
 }

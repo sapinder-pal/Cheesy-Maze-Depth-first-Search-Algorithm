@@ -4,7 +4,7 @@ let GestureStartX, GestureStartY;
 let GestureEndX, GestureEndY;
 
 export function handleKeyDown(evt) {
-  currentGame.player.move({ keyCode: evt.keyCode });
+  currentGame.player.move({ type: 'key', keyCode: evt.keyCode });
 }
 
 export function handleGestureStart(evt) {
@@ -56,28 +56,39 @@ function handleGestureEnd(evt) {
     let targetColumn = Math.floor(GestureEndX / maze.cellWidth);
     let targetRow = Math.floor(GestureEndY / maze.cellHeight);
 
-    let possibleTargets = {
-      left:
-        player.colNum !== 0
-          ? maze.grid[player.rowNum][player.colNum - 1]
-          : undefined,
+    let cellNeighbors = new Map();
+    cellNeighbors.set(
+      'left',
+      player.colNum !== 0
+        ? maze.grid[player.rowNum][player.colNum - 1]
+        : undefined
+    );
 
-      top:
-        player.rowNum !== 0
-          ? maze.grid[player.rowNum - 1][player.colNum]
-          : undefined,
+    cellNeighbors.set(
+      'top',
+      player.rowNum !== 0
+        ? maze.grid[player.rowNum - 1][player.colNum]
+        : undefined
+    );
 
-      right:
-        player.colNum !== maze.gridLastColumn
-          ? maze.grid[player.rowNum][player.colNum + 1]
-          : undefined,
+    cellNeighbors.set(
+      'right',
+      player.colNum !== maze.gridLastColumn
+        ? maze.grid[player.rowNum][player.colNum + 1]
+        : undefined
+    );
 
-      bottom:
-        player.rowNum !== maze.gridLastRow
-          ? maze.grid[player.rowNum + 1][player.colNum]
-          : undefined,
-    };
+    cellNeighbors.set(
+      'bottom',
+      player.rowNum !== maze.gridLastRow
+        ? maze.grid[player.rowNum + 1][player.colNum]
+        : undefined
+    );
 
-    player.move(possibleTargets, maze.grid[targetRow][targetColumn]);
+    player.move({
+      type: 'gesture',
+      targetCell: maze.grid[targetRow][targetColumn],
+      cellNeighbors,
+    });
   }
 }
