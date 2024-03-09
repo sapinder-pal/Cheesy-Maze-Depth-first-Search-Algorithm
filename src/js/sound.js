@@ -5,10 +5,12 @@ class Sound {
     src: [require('../assets/audio/gameplay.wav')],
     html5: true,
     loop: true,
-    volume: 0.2,
-    onend: () => {
-      this.#gameplay.stop();
-    },
+    volume: 0.1,
+  });
+  #move = new Howl({
+    src: [require('../assets/audio/move.wav')],
+    html5: true,
+    onend: () => this.#move.stop(),
   });
 
   constructor() {
@@ -19,9 +21,17 @@ class Sound {
     return sound.state() === 'loaded';
   }
 
+  #play(sound) {
+    if (this.checkIsLoaded(sound)) sound.play();
+    else sound.once('load', () => sound.play());
+  }
+
   playBackground() {
-    if (this.checkIsLoaded(this.#gameplay)) this.#gameplay.play();
-    else this.#gameplay.once('load', () => this.#gameplay.play());
+    this.#play(this.#gameplay);
+  }
+  playMove() {
+    if (this.#move.playing()) this.#move.stop();
+    this.#play(this.#move);
   }
 }
 

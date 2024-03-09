@@ -1,4 +1,5 @@
 import { currentGame } from './index.js';
+import sound from './sound.js';
 
 const headerSpan = document.querySelector('.header .steps-count');
 
@@ -77,6 +78,7 @@ export default class Player {
     let changeOccurred = this.#testMove(data, currentCell);
 
     if (changeOccurred) {
+      sound.playMove();
       currentCell.drawCell();
       this.#drawPlayer();
 
