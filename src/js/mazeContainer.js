@@ -25,6 +25,9 @@ export default class Maze {
 
   //define grid
   setup() {
+    canvas.width = this.width;
+    canvas.height = this.height;
+
     for (let rowNum = 0; rowNum < this.rows; rowNum++) {
       let row = [];
 
@@ -40,27 +43,21 @@ export default class Maze {
       }
       this.grid.push(row);
     }
-    // will be used to place player diagonally opposite to goal
+
     this.gridLastRow = this.grid.length - 1;
     this.gridLastColumn = this.grid[0].length - 1;
-
-    this.player = new Player(this);
 
     // show preparing-stuff
     preparingGrid.classList.add('show');
 
     //set random starting point
-    this.currentCell = this.startPoint();
-    this.drawMap();
+    this.currentCell = this.startPoint = this.#getStartPoint();
+    this.currentCell.visited = true;
+
+    this.traceMap();
   }
 
-  drawMap() {
-    canvas.width = this.width;
-    canvas.height = this.height;
-
-    this.currentCell.visited = true;
-    this.grid.forEach(row => row.forEach(col => col.drawCell()));
-
+  traceMap() {
     let nextCell = this.currentCell.next(this.grid);
     if (nextCell) {
       nextCell.visited = true;
@@ -75,23 +72,25 @@ export default class Maze {
       this.currentCell = this.stack.pop();
     }
 
-    // if can't go back, set goal & player
     if (this.stack.length === 0) {
-      this.goal = this.currentCell;
-      this.drawGoal();
+      this.drawMap();
 
-      // set player
-      this.player.setPlayer();
       // remove Preparing Screen
       preparingGrid.classList.remove('show');
       return;
-    }
+    } else this.traceMap();
+  }
 
-    window.setTimeout(() => this.drawMap(), this.#mapRefreshRate);
+  drawMap() {
+    this.grid.forEach(row => row.forEach(col => col.drawCell()));
+    this.goal = this.currentCell;
+    this.drawGoal();
+
+    this.player = new Player(this);
   }
 
   // point to start drawing cell (either of four corners)
-  startPoint() {
+  #getStartPoint() {
     let corners = [
       this.grid[0][0],
       this.grid[this.gridLastRow][0],
@@ -104,8 +103,8 @@ export default class Maze {
 
   drawGoal() {
     let cheese = new Image();
-    this.setImageNetSize(cheese, 2);
-    this.setImagePosInsideCell(cheese, this.goal.xCord, this.goal.yCord);
+    this.setImageNetSize(cheese, this.ctx.lineWidth);
+    this.setImagePosInsideCell(cheese, this.goal.xLeftCord, this.goal.yTopCord);
 
     cheese.onload = () =>
       this.ctx.drawImage(

@@ -1,3 +1,5 @@
+import Wall from './wall';
+
 export default class Cell {
   constructor(ctx, rowNum, colNum, width, height) {
     this.ctx = ctx;
@@ -6,79 +8,55 @@ export default class Cell {
     this.rowNum = rowNum;
     this.colNum = colNum;
 
-    this.xCord = this.colNum * this.width;
-    this.yCord = this.rowNum * this.height;
+    this.xLeftCord = this.colNum * this.width;
+    this.yTopCord = this.rowNum * this.height;
+    this.xRightCord = this.xLeftCord + this.width;
+    this.yBottomCord = this.yTopCord + this.height;
 
     this.visited = false;
-    this.walls = {
-      topWall: true,
-      bottomWall: true,
-      leftWall: true,
-      rightWall: true,
-    };
+    this.walls = new Map();
+
+    ['top', 'bottom', 'left', 'right'].forEach(side =>
+      this.walls.set(side, new Wall(this, side))
+    );
   }
 
   drawCell() {
-    this.ctx.strokeStyle = 'white';
-    this.ctx.lineWidth = 2;
+    this.ctx.clearRect(this.xLeftCord, this.yTopCord, this.width, this.height);
 
-    if (this.walls.topWall) this.drawTopWall(this.xCord, this.yCord);
-
-    if (this.walls.bottomWall) this.drawBottomWall(this.xCord, this.yCord);
-
-    if (this.walls.leftWall) this.drawLeftWall(this.xCord, this.yCord);
-
-    if (this.walls.rightWall) this.drawRightWall(this.xCord, this.yCord);
-  }
-
-  drawTopWall() {
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.xCord, this.yCord);
-    this.ctx.lineTo(this.xCord + this.width, this.yCord);
-    this.ctx.stroke();
-  }
-  drawBottomWall() {
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.xCord, this.yCord + this.height);
-    this.ctx.lineTo(this.xCord + this.width, this.yCord + this.height);
-    this.ctx.stroke();
-  }
-  drawLeftWall() {
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.xCord, this.yCord);
-    this.ctx.lineTo(this.xCord, this.yCord + this.height);
-    this.ctx.stroke();
-  }
-  drawRightWall() {
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.xCord + this.width, this.yCord);
-    this.ctx.lineTo(this.xCord + this.width, this.yCord + this.height);
-    this.ctx.stroke();
+    this.walls.forEach(wall => wall.draw());
   }
 
   removeWalls(nextCell) {
     let columnDiff = nextCell.colNum - this.colNum;
     let rowDiff = nextCell.rowNum - this.rowNum;
 
-    switch (columnDiff) {
-      case 1:
-        this.walls.rightWall = false;
-        nextCell.walls.leftWall = false;
-        break;
-      case -1:
-        this.walls.leftWall = false;
-        nextCell.walls.rightWall = false;
-    }
-
-    switch (rowDiff) {
-      case 1:
-        this.walls.bottomWall = false;
-        nextCell.walls.topWall = false;
-        break;
-      case -1:
-        this.walls.topWall = false;
-        nextCell.walls.bottomWall = false;
-    }
+    if (columnDiff)
+      switch (columnDiff) {
+        case 1:
+          this.walls.delete('right');
+          nextCell.walls.delete('left');
+          break;
+        case -1:
+          this.walls.delete('left');
+          nextCell.walls.delete('right');
+          break;
+        default:
+          console.error('Next cell is not a neighbor');
+      }
+    else if (rowDiff)
+      switch (rowDiff) {
+        case 1:
+          this.walls.delete('bottom');
+          nextCell.walls.delete('top');
+          break;
+        case -1:
+          this.walls.delete('top');
+          nextCell.walls.delete('bottom');
+          break;
+        default:
+          console.error('Next cell is not neighbor');
+      }
   }
 
   // choose next cell to visit

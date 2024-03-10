@@ -4,7 +4,7 @@ let GestureStartX, GestureStartY;
 let GestureEndX, GestureEndY;
 
 export function handleKeyDown(evt) {
-  currentGame.player.move({ keyCode: evt.keyCode });
+  currentGame.player.move({ type: 'key', keyCode: evt.keyCode });
 }
 
 export function handleGestureStart(evt) {
@@ -40,14 +40,14 @@ function handleGestureEnd(evt) {
 
   let player = currentGame.player;
   // Cell Range
-  let playerRangeX = player.xCord + player.cellWidth;
-  let playerRangeY = player.yCord + player.cellHeight;
+  let playerRangeX = player.xLeftCord + player.cellWidth;
+  let playerRangeY = player.yTopCord + player.cellHeight;
 
   // Check gesture occurred on player cell
   let isplayerCol =
-    GestureStartX >= player.xCord && GestureStartX <= playerRangeX;
+    GestureStartX >= player.xLeftCord && GestureStartX <= playerRangeX;
   let isplayerRow =
-    GestureStartY >= player.yCord && GestureStartY <= playerRangeY;
+    GestureStartY >= player.yTopCord && GestureStartY <= playerRangeY;
   let gestureOnplayer = isplayerCol && isplayerRow;
 
   if (gestureOnplayer) {
@@ -56,28 +56,39 @@ function handleGestureEnd(evt) {
     let targetColumn = Math.floor(GestureEndX / maze.cellWidth);
     let targetRow = Math.floor(GestureEndY / maze.cellHeight);
 
-    let possibleTargets = {
-      left:
-        player.colNum !== 0
-          ? maze.grid[player.rowNum][player.colNum - 1]
-          : undefined,
+    let cellNeighbors = new Map();
+    cellNeighbors.set(
+      'left',
+      player.colNum !== 0
+        ? maze.grid[player.rowNum][player.colNum - 1]
+        : undefined
+    );
 
-      top:
-        player.rowNum !== 0
-          ? maze.grid[player.rowNum - 1][player.colNum]
-          : undefined,
+    cellNeighbors.set(
+      'top',
+      player.rowNum !== 0
+        ? maze.grid[player.rowNum - 1][player.colNum]
+        : undefined
+    );
 
-      right:
-        player.colNum !== maze.gridLastColumn
-          ? maze.grid[player.rowNum][player.colNum + 1]
-          : undefined,
+    cellNeighbors.set(
+      'right',
+      player.colNum !== maze.gridLastColumn
+        ? maze.grid[player.rowNum][player.colNum + 1]
+        : undefined
+    );
 
-      bottom:
-        player.rowNum !== maze.gridLastRow
-          ? maze.grid[player.rowNum + 1][player.colNum]
-          : undefined,
-    };
+    cellNeighbors.set(
+      'bottom',
+      player.rowNum !== maze.gridLastRow
+        ? maze.grid[player.rowNum + 1][player.colNum]
+        : undefined
+    );
 
-    player.move(possibleTargets, maze.grid[targetRow][targetColumn]);
+    player.move({
+      type: 'gesture',
+      targetCell: maze.grid[targetRow][targetColumn],
+      cellNeighbors,
+    });
   }
 }
